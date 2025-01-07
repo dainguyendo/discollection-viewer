@@ -14,15 +14,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Separator } from "@/components/ui/separator";
+import { HoverCard } from "@/components/ui/hover-card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Collection as CollectionType } from "@/lib/types";
 import { TabsContent } from "@radix-ui/react-tabs";
+import Link from "next/link";
 
 interface Props {
   data: CollectionType;
@@ -30,7 +26,7 @@ interface Props {
 
 export const Collection: React.FC<Props> = ({ data }) => {
   return (
-    <Tabs defaultValue="12">
+    <Tabs defaultValue="12" className="w-full">
       <TabsList>
         {Object.keys(data).map((format) => (
           <TabsTrigger key={format} value={format}>
@@ -70,59 +66,63 @@ const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
         <AccordionItem value={key}>
           <AccordionTrigger>{title}</AccordionTrigger>
           <AccordionContent>
-            {Array.isArray(value) ? (
-              <div className="grid grid-cols-8 gap-2">
-                {value.map((release) => {
-                  console.log({ release });
+            <div className="grid grid-cols-8 gap-2">
+              {value.map((release) => {
+                console.log({ release });
 
-                  const title = release.basic_information.title;
-                  const artists = release.basic_information.artists;
-                  const thumbnail = release.basic_information.thumb;
-                  const genres = release.basic_information.genres;
-                  const styles = release.basic_information.styles;
+                const title = release.basic_information.title;
+                const artists = release.basic_information.artists;
+                const thumbnail = release.basic_information.thumb;
+                const genres = release.basic_information.genres;
+                const styles = release.basic_information.styles;
+                const id = release.basic_information.id;
 
-                  return (
-                    <HoverCard key={release.basic_information.id}>
-                      <HoverCardTrigger>
-                        <Card className="h-full">
-                          <CardHeader>
-                            <Avatar className="h-24 w-24">
-                              <AvatarImage src={thumbnail} />
-                              <AvatarFallback>💿</AvatarFallback>
-                            </Avatar>
-                            <CardTitle>{title}</CardTitle>
-                            <CardDescription>
-                              {artists.map((artist) => artist.name).join(", ")}
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="flex flex-wrap gap-2">
-                              {genres.map((genre) => (
-                                <Badge key={genre} className="text-xs">
-                                  {genre}
-                                </Badge>
-                              ))}
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              {styles.map((style) => (
-                                <Badge
-                                  key={style}
-                                  variant="secondary"
-                                  className="text-xs"
-                                >
-                                  {style}
-                                </Badge>
-                              ))}
-                            </div>
-                          </CardContent>
-                          <CardFooter></CardFooter>
-                        </Card>
-                      </HoverCardTrigger>
-                    </HoverCard>
-                  );
-                })}
-              </div>
-            ) : null}
+                const discogs = new URL(
+                  String(id),
+                  "https://www.discogs.com/release/"
+                );
+
+                return (
+                  <HoverCard key={release.basic_information.id}>
+                    <Card className="h-full">
+                      <CardHeader>
+                        <Avatar className="h-24 w-24 self-center mb-4">
+                          <AvatarImage src={thumbnail} />
+                          <AvatarFallback>💿</AvatarFallback>
+                        </Avatar>
+                        <CardTitle>
+                          <Link href={discogs.toString()}>{title}</Link>
+                        </CardTitle>
+                        <CardDescription>
+                          {artists.map((artist) => artist.name).join(", ")}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="grid grid-cols-2 gap-1">
+                          {genres.map((genre) => (
+                            <Badge key={genre} className="text-xs">
+                              {genre}
+                            </Badge>
+                          ))}
+                        </div>
+                        <div className="grid grid-cols-2 gap-1">
+                          {styles.map((style) => (
+                            <Badge
+                              key={style}
+                              variant="secondary"
+                              className="text-xs"
+                            >
+                              {style}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardContent>
+                      <CardFooter></CardFooter>
+                    </Card>
+                  </HoverCard>
+                );
+              })}
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
