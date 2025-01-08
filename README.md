@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# discollection-viewer
+
+This is a viewer for output of the `organize` command from the [discollection CLI project](https://github.com/dainguyendo/discollection). The output of the `organize` command is a JSON file that contains your organized Discogs library collection. You can take that JSON file and upload it to this viewer to see your collection in it's organized state.
 
 ## Getting Started
 
@@ -6,12 +8,6 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
