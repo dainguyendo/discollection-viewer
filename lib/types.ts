@@ -45,9 +45,7 @@ export type GetReleasesResponse = {
   releases: Array<Release>;
 };
 
-type Format = "12" | "10" | "7";
-
 export type Collection = Record<
-  Format,
+  string,
   Record<string, Array<Release> | Record<string, Array<Release>>>
 >;

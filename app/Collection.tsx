@@ -16,33 +16,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { HoverCard } from "@/components/ui/hover-card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Collection as CollectionType } from "@/lib/types";
-import { TabsContent } from "@radix-ui/react-tabs";
 import { Copy } from "lucide-react";
 import Link from "next/link";
 
-interface Props {
-  data: CollectionType;
+interface CollectionAtFormatProps {
+  data: CollectionType[keyof CollectionType];
 }
 
-export const Collection: React.FC<Props> = ({ data }) => {
-  return (
-    <Tabs defaultValue="12" className="w-full">
-      <TabsList>
-        {Object.keys(data).map((format) => (
-          <TabsTrigger key={format} value={format}>
-            {format} &quot;
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {Object.entries(data).map(([format, node]) => (
-        <TabsContent key={format} value={format}>
-          <CollectionNode data={node} />
-        </TabsContent>
-      ))}
-    </Tabs>
-  );
+export const CollectionAtFormat = ({ data }: CollectionAtFormatProps) => {
+  return <CollectionNode data={data} />;
 };
 
 interface CollectionNodeProps {
@@ -50,7 +33,7 @@ interface CollectionNodeProps {
   parent?: string;
 }
 
-const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
+export const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
   return Object.entries(data).map(([key, value]) => {
     if (!Array.isArray(value)) {
       return <CollectionNode key={key} data={value} parent={key} />;
@@ -63,10 +46,19 @@ const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
       </>
     );
 
+    const id = parent
+      ? `${parent}-${key}`.toLocaleLowerCase()
+      : key.toLocaleLowerCase();
+
     return (
-      <Accordion key={key} type="multiple" defaultValue={[key]}>
+      <Accordion
+        key={key}
+        type="multiple"
+        defaultValue={[key]}
+        className="w-full"
+      >
         <AccordionItem value={key}>
-          <AccordionTrigger>{title}</AccordionTrigger>
+          <AccordionTrigger id={id}>{title}</AccordionTrigger>
           <AccordionContent>
             <div className="grid grid-cols-8 gap-2">
               {value.map((release) => {
@@ -98,19 +90,28 @@ const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="space-y-2 grow">
-                        <div className="grid grid-cols-2 gap-1">
+                        <div className="flex flex-wrap gap-1">
                           {genres.map((genre) => (
-                            <Badge key={genre} className="text-xs">
+                            <Badge
+                              key={genre}
+                              className="text-[10px] text-center cursor-pointer"
+                              onClick={() =>
+                                navigator.clipboard.writeText(genre)
+                              }
+                            >
                               {genre}
                             </Badge>
                           ))}
                         </div>
-                        <div className="grid grid-cols-2 gap-1">
+                        <div className="flex flex-wrap gap-1">
                           {styles.map((style) => (
                             <Badge
                               key={style}
                               variant="secondary"
-                              className="text-xs"
+                              className="text-[10px] text-center cursor-pointer"
+                              onClick={() =>
+                                navigator.clipboard.writeText(style)
+                              }
                             >
                               {style}
                             </Badge>
@@ -124,7 +125,7 @@ const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
                           onClick={() =>
                             navigator.clipboard.writeText(String(id))
                           }
-                          className="text-xs text-neutral-400	"
+                          className="text-[10px] text-neutral-400	"
                         >
                           <Copy />
                           {id}
