@@ -58,9 +58,11 @@ export const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
         className="w-full"
       >
         <AccordionItem value={key}>
-          <AccordionTrigger id={id}>{title}</AccordionTrigger>
+          <div className="sticky top-0 bg-background z-10">
+            <AccordionTrigger id={id}>{title}</AccordionTrigger>
+          </div>
           <AccordionContent>
-            <div className="grid grid-cols-8 gap-2">
+            <div className="grid grid-cols-5 gap-2">
               {value.map((release) => {
                 const title = release.basic_information.title;
                 const artists = release.basic_information.artists;
@@ -82,12 +84,12 @@ export const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
                           <AvatarImage src={thumbnail} />
                           <AvatarFallback>💿</AvatarFallback>
                         </Avatar>
-                        <CardTitle>
-                          <Link href={discogs.toString()}>{title}</Link>
-                        </CardTitle>
-                        <CardDescription>
-                          {artists.map((artist) => artist.name).join(", ")}
-                        </CardDescription>
+                        <Link href={discogs.toString()}>
+                          <CardTitle>{title}</CardTitle>
+                          <CardDescription>
+                            {artists.map((artist) => artist.name).join(", ")}
+                          </CardDescription>
+                        </Link>
                       </CardHeader>
                       <CardContent className="space-y-2 grow">
                         <div className="flex flex-wrap gap-1">
