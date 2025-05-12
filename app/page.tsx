@@ -7,7 +7,7 @@ export default function Home() {
   const { collection, format } = useCollectionStore();
 
   return (
-    <div className="min-h-screen p-6 pb-20 sm:p-20 font-[family-name:var(--font-inter)]">
+    <div className="min-h-screen p-6 pb-6 sm:p-6 font-[family-name:var(--font-inter)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full">
         {collection && format && <CollectionNode data={collection[format]} />}
       </main>
