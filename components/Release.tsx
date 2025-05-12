@@ -97,26 +97,29 @@ export const Release = ({ release }: Props) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/30 z-10" />
 
         <div className="relative z-20 flex flex-col justify-end h-full">
-          <CardContent className="pt-4 pb-0 flex flex-wrap gap-1">
-            {genres.map((genre) => (
-              <Badge
-                key={genre}
-                className="text-[8px] text-center cursor-pointer"
-                onClick={() => navigator.clipboard.writeText(genre)}
-              >
-                {genre}
-              </Badge>
-            ))}
-            {styles.map((style) => (
-              <Badge
-                key={style}
-                variant="secondary"
-                className="text-[8px] text-center cursor-pointer"
-                onClick={() => navigator.clipboard.writeText(style)}
-              >
-                {style}
-              </Badge>
-            ))}
+          <CardContent className="pt-4 pb-0">
+            <div className="flex flex-wrap flex-row gap-1 justify-end">
+              {genres.map((genre) => (
+                <Badge
+                  key={genre}
+                  className="text-[8px] text-center cursor-pointer bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-none py-0.5"
+                  onClick={() => navigator.clipboard.writeText(genre)}
+                >
+                  {genre}
+                </Badge>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-1 justify-end pt-1">
+              {styles.map((style) => (
+                <Badge
+                  key={style}
+                  className="text-[8px] text-center cursor-pointer bg-black/20 hover:bg-black/30 backdrop-blur-sm text-white border-none py-0.5"
+                  onClick={() => navigator.clipboard.writeText(style)}
+                >
+                  {style}
+                </Badge>
+              ))}
+            </div>
           </CardContent>
           <CardHeader>
             <Link href={discogs.toString()}>
