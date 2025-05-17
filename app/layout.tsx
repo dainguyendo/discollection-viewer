@@ -1,9 +1,8 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { AppSidebar } from "@/components/ui/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { FloatingMenu } from "@/components/FloatingMenu";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -29,10 +28,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>
-            <AppSidebar />
-            {children}
-          </SidebarProvider>
+          {children}
+          <FloatingMenu />
         </ThemeProvider>
       </body>
     </html>
