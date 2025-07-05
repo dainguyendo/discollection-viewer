@@ -10,18 +10,18 @@ import {
 } from "@/components/ui/card";
 import { HoverCard } from "@/components/ui/hover-card";
 import { Release as ReleaseType } from "@/lib/types";
+import { getReleaseArtist } from "@/lib/utils";
 import { Copy, Music } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
   release: ReleaseType;
+  variant?: "default" | "minimal";
 }
-export const Release = ({ release }: Props) => {
+export const Release = ({ release, variant = "default" }: Props) => {
   const title = release.basic_information.title;
-  const artists = release.basic_information.artists
-    .map((artist) => artist.name)
-    .join(", ");
+  const artists = getReleaseArtist(release);
   const thumbnail = release.basic_information.thumb || null;
   const genres = release.basic_information.genres;
   const styles = release.basic_information.styles;
@@ -45,6 +45,9 @@ export const Release = ({ release }: Props) => {
   };
 
   const { color1, color2 } = getGradientColors();
+
+  const showBadges = variant === "default";
+  const showActions = variant === "default";
 
   return (
     <HoverCard key={id}>
@@ -98,28 +101,32 @@ export const Release = ({ release }: Props) => {
 
         <div className="relative z-20 flex flex-col justify-end h-full">
           <CardContent className="pt-4 pb-0">
-            <div className="flex flex-wrap flex-row gap-1 justify-end">
-              {genres.map((genre) => (
-                <Badge
-                  key={genre}
-                  className="text-[8px] text-center cursor-pointer bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-none py-0.5"
-                  onClick={() => navigator.clipboard.writeText(genre)}
-                >
-                  {genre}
-                </Badge>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-1 justify-end pt-1">
-              {styles.map((style) => (
-                <Badge
-                  key={style}
-                  className="text-[8px] text-center cursor-pointer bg-black/20 hover:bg-black/30 backdrop-blur-sm text-white border-none py-0.5"
-                  onClick={() => navigator.clipboard.writeText(style)}
-                >
-                  {style}
-                </Badge>
-              ))}
-            </div>
+            {showBadges && (
+              <div className="flex flex-wrap flex-row gap-1 justify-end">
+                {genres.map((genre) => (
+                  <Badge
+                    key={genre}
+                    className="text-[8px] text-center cursor-pointer bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-none py-0.5"
+                    onClick={() => navigator.clipboard.writeText(genre)}
+                  >
+                    {genre}
+                  </Badge>
+                ))}
+              </div>
+            )}
+            {showBadges && (
+              <div className="flex flex-wrap gap-1 justify-end pt-1">
+                {styles.map((style) => (
+                  <Badge
+                    key={style}
+                    className="text-[8px] text-center cursor-pointer bg-black/20 hover:bg-black/30 backdrop-blur-sm text-white border-none py-0.5"
+                    onClick={() => navigator.clipboard.writeText(style)}
+                  >
+                    {style}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </CardContent>
           <CardHeader>
             <Link href={discogs.toString()}>
@@ -133,14 +140,16 @@ export const Release = ({ release }: Props) => {
           </CardHeader>
 
           <CardFooter className="justify-end">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => navigator.clipboard.writeText(String(id))}
-              className="text-[10px] text-neutral-400	"
-            >
-              <Copy />
-            </Button>
+            {showActions && (
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => navigator.clipboard.writeText(String(id))}
+                className="text-[10px] text-neutral-400	"
+              >
+                <Copy />
+              </Button>
+            )}
           </CardFooter>
         </div>
       </Card>

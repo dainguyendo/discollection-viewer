@@ -13,6 +13,7 @@ import { Input } from "./ui/input";
 import { useCollectionStore } from "@/state/collection";
 import { ChangeEvent, useRef } from "react";
 import { FormatTree } from "./FormatTree";
+import { CollectionSearch } from "./CollectionSearch";
 
 export const FloatingMenu = () => {
   const { setTheme } = useTheme();
@@ -61,7 +62,7 @@ export const FloatingMenu = () => {
 
         <MenubarMenu>
           <MenubarTrigger className="rounded-full p-2 data-[state=open]:bg-accent">
-            {format}
+            {format}&quot;
           </MenubarTrigger>
           <MenubarContent>
             {formats &&
@@ -101,6 +102,12 @@ export const FloatingMenu = () => {
             <MenubarItem onClick={() => setTheme("system")}>System</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
+
+        {collection && format && (
+          <MenubarMenu>
+            <CollectionSearch />
+          </MenubarMenu>
+        )}
       </Menubar>
     </div>
   );
