@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Collection } from "@/lib/types";
+import { Collection, Release } from "@/lib/types";
 
 interface State {
   collection: Collection | null;
@@ -7,6 +7,11 @@ interface State {
   set: (collection: Collection) => void;
   setFormat: (format: number) => void;
   clear: () => void;
+
+  filtered: Array<Release["id"]> | null;
+  setFiltered: (
+    filtered: Array<Release["basic_information"]["id"]> | null
+  ) => void;
 }
 
 export const useCollectionStore = create<State>()((set) => ({
@@ -20,4 +25,7 @@ export const useCollectionStore = create<State>()((set) => ({
   },
   setFormat: (format) => set({ format }),
   clear: () => set({ collection: null }),
+
+  filtered: null,
+  setFiltered: (filtered) => set({ filtered }),
 }));

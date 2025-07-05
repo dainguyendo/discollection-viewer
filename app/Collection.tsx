@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Collection as CollectionType } from "@/lib/types";
+import { useCollectionStore } from "@/state/collection";
 
 interface CollectionAtFormatProps {
   data: CollectionType[keyof CollectionType];
@@ -22,6 +23,8 @@ interface CollectionNodeProps {
 }
 
 export const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
+  const { filtered } = useCollectionStore();
+
   return Object.entries(data).map(([key, value]) => {
     if (!Array.isArray(value)) {
       return <CollectionNode key={key} data={value} parent={key} />;
@@ -54,7 +57,15 @@ export const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
               {value.map((release) => {
                 const id = release.basic_information.id;
 
-                return <Release release={release} key={id} />;
+                const dim = Boolean(filtered?.length && !filtered.includes(id));
+
+                return dim ? (
+                  <div className="opacity-30" key={id}>
+                    <Release release={release} key={id} variant="minimal" />
+                  </div>
+                ) : (
+                  <Release release={release} key={id} />
+                );
               })}
             </div>
           </AccordionContent>
