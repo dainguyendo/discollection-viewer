@@ -51,7 +51,10 @@ export const Release = ({ release, variant = "default" }: Props) => {
 
   return (
     <HoverCard key={id}>
-      <Card className="h-full flex flex-col relative overflow-hidden group">
+      <Card
+        id={`release-${id}`}
+        className="h-full flex flex-col relative overflow-hidden group"
+      >
         <div className="absolute inset-0 z-0">
           {thumbnail ? (
             <Image

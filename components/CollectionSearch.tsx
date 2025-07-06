@@ -45,6 +45,16 @@ export const CollectionSearch = () => {
     const filteredReleaseIds = results.map((result) => result.item.id);
 
     setFiltered(filteredReleaseIds);
+
+    // Get the first result and scroll to it
+    const [first] = filteredReleaseIds;
+
+    if (first) {
+      const element = document.getElementById(`release-${first}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
   };
 
   return (
