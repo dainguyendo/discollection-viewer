@@ -21,13 +21,15 @@ export const CollectionSearch = () => {
         title: release.basic_information.title,
         artist: getReleaseArtist(release),
         labels: getReleaseLabel(release),
+        genres: release.basic_information.genres,
+        styles: release.basic_information.styles,
       }));
     });
   }, [data]);
 
   const fuse = React.useMemo(() => {
     return new Fuse(releases, {
-      keys: ["title", "artist", "labels"],
+      keys: ["title", "artist", "labels", "genres", "styles"],
       threshold: 0.3, // Adjust threshold for sensitivity
     });
   }, [releases]);

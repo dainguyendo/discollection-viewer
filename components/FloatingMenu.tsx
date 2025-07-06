@@ -60,24 +60,26 @@ export const FloatingMenu = () => {
           </MenubarTrigger>
         </MenubarMenu>
 
-        <MenubarMenu>
-          <MenubarTrigger className="rounded-full p-2 data-[state=open]:bg-accent">
-            {format}&quot;
-          </MenubarTrigger>
-          <MenubarContent>
-            {formats &&
-              formats.map((f) => (
-                <MenubarItem
-                  key={f}
-                  onClick={() => {
-                    setFormat(Number(f));
-                  }}
-                >
-                  {f}
-                </MenubarItem>
-              ))}
-          </MenubarContent>
-        </MenubarMenu>
+        {collection && format && (
+          <MenubarMenu>
+            <MenubarTrigger className="rounded-full p-2 data-[state=open]:bg-accent">
+              {format}&quot;
+            </MenubarTrigger>
+            <MenubarContent>
+              {formats &&
+                formats.map((f) => (
+                  <MenubarItem
+                    key={f}
+                    onClick={() => {
+                      setFormat(Number(f));
+                    }}
+                  >
+                    {f}&quot;
+                  </MenubarItem>
+                ))}
+            </MenubarContent>
+          </MenubarMenu>
+        )}
 
         {collection && format && (
           <MenubarMenu>

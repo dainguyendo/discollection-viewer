@@ -53,7 +53,7 @@ export const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
             <AccordionTrigger id={id}>{title}</AccordionTrigger>
           </div>
           <AccordionContent>
-            <div className="grid [grid-template-columns:repeat(auto-fit,minmax(300px,325px))] gap-1">
+            <div className="grid [grid-template-columns:repeat(auto-fit,300px)] gap-1">
               {value.map((release) => {
                 const id = release.basic_information.id;
 
