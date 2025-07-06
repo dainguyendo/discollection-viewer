@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen p-6 pb-6 sm:p-6 font-[family-name:var(--font-inter)] w-full">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full">
+      <main>
         {collection && format && <CollectionNode data={collection[format]} />}
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>

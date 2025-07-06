@@ -1,10 +1,4 @@
 import { Release } from "@/components/Release";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Collection as CollectionType } from "@/lib/types";
 import { useCollectionStore } from "@/state/collection";
@@ -30,47 +24,43 @@ export const CollectionNode = ({ data, parent }: CollectionNodeProps) => {
       return <CollectionNode key={key} data={value} parent={key} />;
     }
 
-    const title = (
-      <>
-        {parent ? <Badge>{parent}</Badge> : null}
-        {key} ({value.length})
-      </>
-    );
-
     const id = parent
       ? `${parent}-${key}`.toLocaleLowerCase()
       : key.toLocaleLowerCase();
 
     return (
-      <Accordion
-        key={key}
-        type="multiple"
-        defaultValue={[key]}
-        className="w-full"
-      >
-        <AccordionItem value={key}>
-          <div className="sticky top-0 bg-background z-30">
-            <AccordionTrigger id={id}>{title}</AccordionTrigger>
-          </div>
-          <AccordionContent>
-            <div className="grid [grid-template-columns:repeat(auto-fit,300px)] gap-1">
-              {value.map((release) => {
-                const id = release.basic_information.id;
-
-                const dim = Boolean(filtered?.length && !filtered.includes(id));
-
-                return dim ? (
-                  <div className="opacity-30" key={id}>
-                    <Release release={release} key={id} variant="minimal" />
-                  </div>
-                ) : (
-                  <Release release={release} key={id} />
-                );
-              })}
+      <div key={key} className="grid grid-cols-8 relative">
+        <div id={id} className="uppercase">
+          <div className="flex flex-col gap-1 sticky top-0">
+            {parent && (
+              <div>
+                <Badge className="font-bold">{parent}</Badge>
+              </div>
+            )}
+            <div className="truncate">{key}</div>
+            <div className="text-xs text-muted-foreground">
+              ({value.length})
             </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+          </div>
+        </div>
+        <div className="col-span-7">
+          <div className="grid [grid-template-columns:repeat(auto-fit,300px)] gap-1">
+            {value.map((release) => {
+              const id = release.basic_information.id;
+
+              const dim = Boolean(filtered?.length && !filtered.includes(id));
+
+              return dim ? (
+                <div className="opacity-30" key={id}>
+                  <Release release={release} key={id} variant="minimal" />
+                </div>
+              ) : (
+                <Release release={release} key={id} />
+              );
+            })}
+          </div>
+        </div>
+      </div>
     );
   });
 };
